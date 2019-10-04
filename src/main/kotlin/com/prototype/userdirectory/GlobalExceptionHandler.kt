@@ -23,7 +23,7 @@ class GlobalExceptionHandler: ResponseEntityExceptionHandler()  {
     }
 
     @ExceptionHandler(InternalServerError::class)
-    fun handleMolbException(ex: InternalServerError, request: WebRequest) =
+    fun handleInternalServerErrorException(ex: InternalServerError, request: WebRequest) =
         handleErrorResponse(ex, ex.toErrors(), HttpStatus.INTERNAL_SERVER_ERROR, request)
 
     @ExceptionHandler(NotFoundException::class)
