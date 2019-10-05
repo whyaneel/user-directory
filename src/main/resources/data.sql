@@ -4,7 +4,8 @@ CREATE TABLE user_directory (
   id VARCHAR(250) NOT NULL PRIMARY KEY,
   first_name VARCHAR(250) NOT NULL,
   last_name VARCHAR(250) NOT NULL,
-  contact_number VARCHAR(250)
+  contact_number VARCHAR(250),
+  is_deleted BOOLEAN DEFAULT FALSE
 );
 
 INSERT INTO user_directory (id, first_name, last_name) VALUES
@@ -15,9 +16,11 @@ INSERT INTO user_directory (id, first_name, last_name) VALUES
   ('S5773720D', 'Julie', 'Magnate'),
   ('G2313040N', 'Joselyn', 'Henderson'),
   ('G6363972P', 'Natalee', 'Magnate'),
-  ('G8333471T', 'Jefferson', 'Magnate'),
-  ('T1917402B', 'Camren', 'Humphrey'),
-  ('F5399943M', 'Alessandro', 'Magnate');
+  ('G8333471T', 'Jefferson', 'Magnate');
+
+INSERT INTO user_directory (id, first_name, last_name, is_deleted) VALUES
+  ('T1917402B', 'Camren', 'Humphrey', true),
+  ('F5399943M', 'Alessandro', 'Magnate', true);
 
 
 

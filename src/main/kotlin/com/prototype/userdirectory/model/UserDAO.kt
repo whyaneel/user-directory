@@ -29,6 +29,9 @@ data class UserDAO(
     @Column(name = "contact_number")
     val contactNumber: String = "",
 
+    @Column(name = "is_deleted")
+    var deleted: Boolean = false,
+
     @ElementCollection
     @CollectionTable(name = "address_directory", joinColumns = [JoinColumn(name = "user_id")])
     var addresses: List<AddressDAO>? = emptyList()
