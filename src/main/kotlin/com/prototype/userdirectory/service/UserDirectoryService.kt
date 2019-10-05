@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service
 class UserDirectoryService(
     private val userRepository: UserRepository
 ) {
+    fun getInActiveUsers(): List<UserDTO>  = userRepository.findAllInActive().map { it.toDTO() }
+
+    fun getInActiveUser(id: String): UserDTO = inActiveUserOrThrow(id).toDTO()
+
+    fun deleteInActiveUser(id: String) = userRepository.permDelete(inActiveUserOrThrow(id).id)
+
     fun getAllUsers(): List<UserDTO> = userRepository.findAll().map { it.toDTO() }
 
     fun getUser(id: String): UserDTO = userOrThrow(id).toDTO()
@@ -35,6 +41,12 @@ class UserDirectoryService(
     private fun userOrThrow(id: String): UserDAO {
         val userDAO = userRepository.findById(id)
             .orElseThrow { NotFoundException("No User Profile found [$id]") }
+        return userDAO
+    }
+
+    private fun inActiveUserOrThrow(id: String): UserDAO {
+        val userDAO = userRepository.findInActiveById(id)
+            .orElseThrow { NotFoundException("No InActive User Profile found [$id]") }
         return userDAO
     }
 

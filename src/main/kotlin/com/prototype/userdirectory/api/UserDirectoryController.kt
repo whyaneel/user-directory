@@ -23,6 +23,15 @@ class UserDirectoryController(
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
+    @GetMapping("/inactive/users")
+    fun getInActiveUsers(): List<UserDTO> = userDirectoryService.getInActiveUsers()
+
+    @GetMapping("/inactive/users/{id}")
+    fun getInActiveUser(@PathVariable @ValidUserId id: String) = userDirectoryService.getInActiveUser(id)
+
+    @DeleteMapping("/inactive/users/{id}")
+    fun deleteInActiveUser(@PathVariable @ValidUserId id: String) = userDirectoryService.deleteInActiveUser(id)
+
     @GetMapping("/users")
     fun getUsers(): List<UserDTO> = userDirectoryService.getAllUsers()
 
@@ -48,6 +57,5 @@ class UserDirectoryController(
     @DeleteMapping("/users/{id}")
     fun deleteUser(@PathVariable @ValidUserId id: String) = userDirectoryService.deleteUser(id)
 
-    //TODO Soft Delete
     //TODO Search Users with (FirstName, LastName, country), Sort By FirstName, Pagination (10 items)
 }

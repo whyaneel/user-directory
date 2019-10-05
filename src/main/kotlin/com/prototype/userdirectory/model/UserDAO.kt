@@ -1,6 +1,8 @@
 package com.prototype.userdirectory.model
 
 import com.prototype.userdirectory.utils.addCommaIfNeeded
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.Where
 import javax.persistence.CollectionTable
 import javax.persistence.Column
 import javax.persistence.ElementCollection
@@ -11,6 +13,8 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "user_directory")
+@SQLDelete(sql = "UPDATE user_directory SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 data class UserDAO(
     @Id
     @Column(name = "id")
