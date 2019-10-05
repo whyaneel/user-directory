@@ -1,6 +1,10 @@
 var GET_USERS = 'api/users';
 var GET_USER_BY_ID = 'api/users/{id}';
 var DELETE_USER_BY_ID = 'api/users/{id}';
+var GET_USERS_INACTIVE = 'api/inactive/users';
+var GET_USER_BY_ID_INACTIVE = 'api/inactive/users/{id}';
+var DELETE_USER_BY_ID_INACTIVE = 'api/inactive/users/{id}';
+
 $(document).ready(function() {
     fetchAllUsers();
 });
@@ -10,34 +14,35 @@ function displayUsers(data) {
     $.each(data, function(k, v) {
         resultsContent +=
             '<tr>' +
+            '<td>' + v.id + '</td>' +
             '<td>' + v.firstName + ' ' + v.lastName + '</td>' +
             '<td>' + (v.addresses.length > 0 ? v.addresses[0] : '') + '</td>' +
-            '<td>' +
-            '<button class="btn-softdelete" type="button" onclick="softDelete(\'' + v.id + '\')">-</button>' +
-            '<button class="btn-delete" type="button" onclick="permDelete(\'' + v.id + '\')">x</button>' +
-            '</td>' +
+            '<td>';
+        if (active)
+            resultsContent += '<button class="btn-softdelete" type="button" onclick="deleteRecord(\'' + v.id + '\')">-</button>';
+        else
+            resultsContent += '<button class="btn-delete" type="button" onclick="deleteRecord(\'' + v.id + '\')">x</button>';
+
+        resultsContent += '</td>' +
             '</tr>';
     });
     $(".results>table>tbody").html(resultsContent);
 }
 
 function fetchAllUsers() {
-    $.get(GET_USERS, function(data, status) {
+    $.get((active ? GET_USERS : GET_USERS_INACTIVE), function(data, status) {
         displayUsers(data);
     });
 }
 
-function softDelete(id) {
-    alert("TODO soft deleted " + id);
-}
-
-function permDelete(id) {
+function deleteRecord(id) {
     $.ajax({
-        url: DELETE_USER_BY_ID.replace('{id}', id),
+        url: (active ? DELETE_USER_BY_ID : DELETE_USER_BY_ID_INACTIVE).replace('{id}', id),
         type: 'DELETE',
         success: function(result) {
+            $('#search').val('');
             fetchAllUsers();
-            alert("deleted " + id);
+            alert("record (" + id + ") " + (active ? "soft deleted" : "deleted permanently"));
         }
     });
 }
@@ -47,7 +52,7 @@ function searchUser() {
     var id = $('#search').val();
     if (id.length > 3) {
         $.ajax({
-            url: GET_USER_BY_ID.replace('{id}', id),
+            url: (active ? GET_USER_BY_ID : GET_USER_BY_ID_INACTIVE).replace('{id}', id),
             type: 'GET',
             success: function(result) {
                 displayUsers([result]);
@@ -65,4 +70,12 @@ function searchUser() {
             }
         });
     }
+}
+
+active = true;
+
+function toggleToolbarStatus() {
+    active = !active;
+    $('#search').val('');
+    fetchAllUsers();
 }
