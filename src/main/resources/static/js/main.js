@@ -49,13 +49,14 @@ function deleteRecord(id) {
 
 //TODO this should become `search` with multiple combinations
 function searchUser() {
-    var id = $('#search').val();
-    if (id.length > 3) {
+    var WINDOW_LOCATION_SEARCH = "?search={search}"
+    var term = $('#search').val().trim();
+    if (term.length > 3) {
         $.ajax({
-            url: (active ? GET_USER_BY_ID : GET_USER_BY_ID_INACTIVE).replace('{id}', id),
+            url: (active ? GET_USERS : GET_USERS_INACTIVE) + WINDOW_LOCATION_SEARCH.replace('{search}', term),
             type: 'GET',
             success: function(result) {
-                displayUsers([result]);
+                displayUsers(result);
             },
             error: function(jqXHR, exception) {
                 if (jqXHR.status === 0) {

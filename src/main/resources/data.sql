@@ -16,6 +16,15 @@ INSERT INTO user_directory (id, first_name, last_name) VALUES
   ('S5773720D', 'Julie', 'Magnate'),
   ('G2313040N', 'Joselyn', 'Henderson'),
   ('G6363972P', 'Natalee', 'Magnate'),
+  ('G6463972P', 'Darcie', 'Magnate'),
+  ('G6563972P', 'Beatrice', 'Magnate'),
+  ('G6663972P', 'Beatrice', 'Henderson'),
+  ('G6763972P', 'Cora', 'Magnate'),
+  ('G6863972P', 'Cleo', 'Magnate'),
+  ('G6963972P', 'Kye', 'Magnate'),
+  ('G6163972P', 'Bethan', 'Magnate'),
+  ('G6263972P', 'Robbie', 'Magnate'),
+  ('G6343972P', 'Samson', 'Magnate'),
   ('G8333471T', 'Jefferson', 'Magnate');
 
 INSERT INTO user_directory (id, first_name, last_name, is_deleted) VALUES
@@ -37,10 +46,20 @@ CREATE TABLE address_directory (
 
 INSERT INTO address_directory (user_id, country, postal_code) VALUES
   ('S8823678E', 'Singapore', '520237'),
-  ('S8823678E', 'Singapore', '520241'),
+  ('S8823678E', 'Malaysia', '520241'),
   ('F5399943M', 'Singapore', '520247'),
   ('T1917402B', 'Singapore', '520248'),
-  ('G8333471T', 'Singapore', '520249'),
+  ('G8333471T', 'Malaysia', '520249'),
+  ('G6363972P', 'Singapore', '520253'),
+  ('G6463972P', 'Singapore', '520253'),
+  ('G6563972P', 'Singapore', '520253'),
+  ('G6663972P', 'Singapore', '520253'),
+  ('G6763972P', 'Singapore', '520253'),
+  ('G6863972P', 'Malaysia', '520253'),
+  ('G6963972P', 'Singapore', '520253'),
+  ('G6163972P', 'Singapore', '520253'),
+  ('G6263972P', 'Singapore', '520253'),
+  ('G6343972P', 'Singapore', '520253'),
   ('G6363972P', 'Singapore', '520253'),
   ('S1502746J', 'Malaysia', '520241'),
   ('S7993823H', 'Malaysia', '123456');
