@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
@@ -24,7 +25,8 @@ class UserDirectoryController(
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
     @GetMapping("/inactive/users")
-    fun getInActiveUsers(): List<UserDTO> = userDirectoryService.getInActiveUsers()
+    fun searchInActiveUsers(@RequestParam(required = false, name = "search") search: String?): List<UserDTO> =
+        userDirectoryService.searchInActiveUsers(search)
 
     @GetMapping("/inactive/users/{id}")
     fun getInActiveUser(@PathVariable @ValidUserId id: String) = userDirectoryService.getInActiveUser(id)
@@ -33,7 +35,8 @@ class UserDirectoryController(
     fun deleteInActiveUser(@PathVariable @ValidUserId id: String) = userDirectoryService.deleteInActiveUser(id)
 
     @GetMapping("/users")
-    fun getUsers(): List<UserDTO> = userDirectoryService.getAllUsers()
+    fun searchUsers(@RequestParam(required = false, name = "search") search: String?): List<UserDTO> =
+        userDirectoryService.searchUsers(search)
 
     @GetMapping("/users/{id}")
     fun getUser(@PathVariable @ValidUserId id: String) = userDirectoryService.getUser(id)
@@ -57,5 +60,5 @@ class UserDirectoryController(
     @DeleteMapping("/users/{id}")
     fun deleteUser(@PathVariable @ValidUserId id: String) = userDirectoryService.deleteUser(id)
 
-    //TODO Search Users with (FirstName, LastName, country), Sort By FirstName, Pagination (10 items)
+    //TODO Pagination (10 items), Refactor to Pageable as well.
 }
