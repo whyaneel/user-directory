@@ -60,5 +60,5 @@ class UserDirectoryController(
     @DeleteMapping("/users/{id}")
     fun deleteUser(@PathVariable @ValidUserId id: String) = userDirectoryService.deleteUser(id)
 
-    //TODO Sort By FirstName, Pagination (10 items)
+    //TODO Pagination (10 items), Refactor to Pageable as well.
 }

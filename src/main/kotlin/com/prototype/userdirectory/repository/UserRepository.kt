@@ -13,7 +13,7 @@ import java.util.Optional
 @Repository
 interface UserRepository : JpaRepository<UserDAO, String> {
     @Query(
-        value = "SELECT * FROM user_directory WHERE is_deleted = true",
+        value = "SELECT * FROM user_directory WHERE is_deleted = true ORDER BY first_name",
         nativeQuery = true
     )
     fun findAllInActive(): List<UserDAO>
@@ -36,7 +36,8 @@ interface UserRepository : JpaRepository<UserDAO, String> {
         "SELECT * FROM user_directory u INNER JOIN address_directory addr ON u.id = addr.user_id " +
             "where is_deleted = false " +
             "AND CONCAT(first_name, ' ', last_name) ILIKE %:name% " +
-            "AND country = (:country)",
+            "AND country = (:country) " +
+            "ORDER BY first_name",
         nativeQuery = true
     )
     fun searchUsers(@Param("name") name: String, @Param("country") country: String): List<UserDAO>
@@ -45,7 +46,8 @@ interface UserRepository : JpaRepository<UserDAO, String> {
         "SELECT * FROM user_directory u INNER JOIN address_directory addr ON u.id = addr.user_id " +
             "where is_deleted = true " +
             "AND CONCAT(first_name, ' ', last_name) ILIKE %:name% " +
-            "AND country = (:country)",
+            "AND country = (:country) " +
+            "ORDER BY first_name",
         nativeQuery = true
     )
     fun searchInActiveUsers(@Param("name") name: String, @Param("country") country: String): List<UserDAO>

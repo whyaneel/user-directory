@@ -7,6 +7,7 @@ import com.prototype.userdirectory.model.UserDAO
 import com.prototype.userdirectory.repository.UserRepository
 import com.prototype.userdirectory.utils.fromDTO
 import com.prototype.userdirectory.utils.toDTO
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import javax.validation.ValidationException
 
@@ -14,13 +15,14 @@ import javax.validation.ValidationException
 class UserDirectoryService(
     private val userRepository: UserRepository
 ) {
-    fun getInActiveUsers(): List<UserDTO>  = userRepository.findAllInActive().map { it.toDTO() }
+    fun getInActiveUsers(): List<UserDTO> = userRepository.findAllInActive().map { it.toDTO() }
 
     fun getInActiveUser(id: String): UserDTO = inActiveUserOrThrow(id).toDTO()
 
     fun deleteInActiveUser(id: String) = userRepository.permDelete(inActiveUserOrThrow(id).id)
 
-    fun getAllUsers(): List<UserDTO> = userRepository.findAll().map { it.toDTO() }
+    fun getAllUsers(): List<UserDTO> =
+        userRepository.findAll(Sort.by(Sort.Direction.ASC, "firstName")).map { it.toDTO() }
 
     //TODO search can be SearchCriteria
     //TODO Specification approach will have greater control - time factor
@@ -72,12 +74,12 @@ class UserDirectoryService(
     private fun searchCriteria(search: String): Pair<String, String> {
         var (name, country) = Pair(search.trim(), "Singapore")
         val SEARCH_DELIMITED = ","
-        if(search.contains(SEARCH_DELIMITED)) {
+        if (search.contains(SEARCH_DELIMITED)) {
             name = search.split(SEARCH_DELIMITED)[0].trim()
             country = search.split(SEARCH_DELIMITED)[1].trim()
         }
-        if(name.isEmpty()) throw ValidationException("Search: Name can't be empty")
-        if(country.isEmpty()) throw ValidationException("Search: Country can't be empty explicitly")
+        if (name.isEmpty()) throw ValidationException("Search: Name can't be empty")
+        if (country.isEmpty()) throw ValidationException("Search: Country can't be empty explicitly")
         return Pair(name, country)
     }
 
