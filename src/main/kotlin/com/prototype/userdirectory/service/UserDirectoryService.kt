@@ -57,7 +57,7 @@ class UserDirectoryService(
         return userRepository.save(userDAO).toDTO()
     }
 
-    fun deleteUser(id: String) = userRepository.delete(userOrThrow(id))
+    fun deleteUser(id: String) = userRepository.softDelete(userOrThrow(id).id)
 
     private fun userOrThrow(id: String): UserDAO {
         val userDAO = userRepository.findById(id)
