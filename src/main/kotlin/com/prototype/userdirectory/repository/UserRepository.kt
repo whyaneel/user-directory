@@ -27,10 +27,19 @@ interface UserRepository : JpaRepository<UserDAO, String> {
     @Modifying
     @Transactional
     @Query(
-        value = "DELETE FROM user_directory WHERE is_deleted = true AND id = (:id)",
+        value = "DELETE FROM user_directory WHERE is_deleted = true AND id = (:id);" +
+            "DELETE FROM address_directory WHERE user_id = (:id);",
         nativeQuery = true
     )
     fun permDelete(@Param("id") id: String)
+
+    @Modifying
+    @Transactional
+    @Query(
+        value = "UPDATE user_directory SET is_deleted = true WHERE id = (:id)",
+        nativeQuery = true
+    )
+    fun softDelete(@Param("id") id: String)
 
     @Query(
         "SELECT * FROM user_directory u INNER JOIN address_directory addr ON u.id = addr.user_id " +

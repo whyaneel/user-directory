@@ -13,7 +13,6 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "user_directory")
-@SQLDelete(sql = "UPDATE user_directory SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 data class UserDAO(
     @Id
