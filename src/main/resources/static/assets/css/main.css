@@ -460,7 +460,7 @@ legend {
       justify-content: center;
   -ms-flex-align: center;
   font-family: 'Poppins', sans-serif;
-  background: url("../images/Search_001.png");
+  background: url("../images/theme.png");
   background-size: cover;
   background-position: center center;
   padding: 15px;
@@ -727,4 +727,23 @@ table.w3-table-all {
 .checkbox-switch input.input-checkbox:checked + .checkbox-animate .checkbox-on {
 	display: block;
 	opacity: 1;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Oswald:400);
+
+.navigation {
+  width: 100%;
+  background-color: #94a5a6;
+}
+
+.button {
+	text-decoration: none;
+	float: right;
+  padding: 12px;
+  margin: 15px;
+  color: white;
+  background-color: #94a5a6;
+  transition: width .35s;
+  -webkit-transition: width .35s;
+  overflow: hidden
 }
