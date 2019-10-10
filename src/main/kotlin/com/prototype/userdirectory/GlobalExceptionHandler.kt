@@ -15,21 +15,7 @@ import javax.validation.ConstraintViolationException
 import javax.validation.ValidationException
 
 @RestControllerAdvice
-class GlobalExceptionHandler: ResponseEntityExceptionHandler()  {
-    @ExceptionHandler(RuntimeException::class)
-    fun handleGenericException(ex: RuntimeException, request: WebRequest): ResponseEntity<Any> {
-        val cause = getCause(ex)
-        return handleErrorResponse(cause, cause.toErrors(), HttpStatus.INTERNAL_SERVER_ERROR, request)
-    }
-
-    @ExceptionHandler(InternalServerError::class)
-    fun handleInternalServerErrorException(ex: InternalServerError, request: WebRequest) =
-        handleErrorResponse(ex, ex.toErrors(), HttpStatus.INTERNAL_SERVER_ERROR, request)
-
-    @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(ex: NotFoundException, request: WebRequest) =
-        handleErrorResponse(ex, ex.toErrors(), HttpStatus.NOT_FOUND, request)
-
+class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleConstraintViolation(
         ex: ConstraintViolationException,
@@ -44,6 +30,20 @@ class GlobalExceptionHandler: ResponseEntityExceptionHandler()  {
     @ExceptionHandler(ValidationException::class)
     fun handleValidationException(ex: ValidationException, request: WebRequest) =
         handleErrorResponse(ex, ex.toErrors(), HttpStatus.BAD_REQUEST, request)
+
+    @ExceptionHandler(InternalServerError::class)
+    fun handleInternalServerErrorException(ex: InternalServerError, request: WebRequest) =
+        handleErrorResponse(ex, ex.toErrors(), HttpStatus.INTERNAL_SERVER_ERROR, request)
+
+    @ExceptionHandler(NotFoundException::class)
+    fun handleNotFoundException(ex: NotFoundException, request: WebRequest) =
+        handleErrorResponse(ex, ex.toErrors(), HttpStatus.NOT_FOUND, request)
+
+    @ExceptionHandler(RuntimeException::class)
+    fun handleGenericException(ex: RuntimeException, request: WebRequest): ResponseEntity<Any> {
+        val cause = getCause(ex)
+        return handleErrorResponse(cause, cause.toErrors(), HttpStatus.INTERNAL_SERVER_ERROR, request)
+    }
 
     override fun handleMethodArgumentNotValid(
         ex: MethodArgumentNotValidException,
