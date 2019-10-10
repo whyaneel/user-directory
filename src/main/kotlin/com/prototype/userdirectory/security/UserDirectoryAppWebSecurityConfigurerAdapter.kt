@@ -22,23 +22,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 @EnableWebSecurity
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 class UserDirectoryAppWebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     override fun configure(web: WebSecurity) {
         web.ignoring()
             .antMatchers(HttpMethod.OPTIONS)
-            .antMatchers("/assets/**") // #3
+            .antMatchers("/assets/**")
     }
 
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
             .antMatcher("/api/**")
             .addFilter(FirebaseAuthenticationFilter(firebaseAuth(), authenticationManager()))
-            .authorizeRequests()
-            .and()
-            .formLogin()  // #8
-            .loginPage("/index.html") // #9
-            .permitAll() // #5
     }
 
     @Bean
