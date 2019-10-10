@@ -32,13 +32,12 @@ class FirebaseAuthenticationFilter(
             SecurityContextHolder.getContext().authentication = buildAuthentication(fireBaseAuth.verifyIdToken(idToken))
             filterChain.doFilter(request, response)
         } catch (ex: FirebaseAuthException) {
-            response.respondWithError()
+            response.setCorsHeaders()
+            response.sendError(HttpStatus.FORBIDDEN.value(), ex.message)
+        } catch (ex: NotFoundException) {
+            response.setCorsHeaders()
+            response.sendError(HttpStatus.NOT_FOUND.value(), ex.message)
         }
-    }
-
-    private fun HttpServletResponse.respondWithError() {
-        setCorsHeaders()
-        status = HttpStatus.FORBIDDEN.value()
     }
 
     private fun HttpServletResponse.setCorsHeaders() {
